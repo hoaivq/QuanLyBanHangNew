@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
@@ -24,11 +25,14 @@ namespace QuanLyBanHangService
         {
             try
             {
-                return new MsgResult<DataTable>(false);
+                using (DataTable dt = MyApp.Dao.GetTable("SELECT * FROM tblBill WHERE Status = @Status", new SqlParameter[] { new SqlParameter("Status", SqlDbType.Int) { Value = Status.Book} })) 
+                {
+                    return new MsgResult<DataTable>(true, dt);
+                }
             }
             catch (Exception ex)
             {
-                return new MsgResult<DataTable>(false,ex);
+                return new MsgResult<DataTable>(false, ex, "LoadListBill");
             }
         }
     }

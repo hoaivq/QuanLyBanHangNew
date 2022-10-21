@@ -32,8 +32,15 @@ namespace HCommon
             Value = _Value;
         }
 
-        public MsgResult(bool _Success, Exception ex)
+        public MsgResult(bool _Success,  T _Value = default(T))
         {
+            Success = _Success;
+            Value = _Value;
+        }
+
+        public MsgResult(bool _Success, Exception ex, string Title = "")
+        {
+            MyApp.Log.GhiLog(string.IsNullOrWhiteSpace(Title) ? "MsgResult" : Title, ex);
             Success = _Success;
             Message = ex.Message;
         }
